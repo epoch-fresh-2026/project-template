@@ -163,7 +163,11 @@ export default function Home() {
           </p>
         </div>
 
-        <p className="max-w-3xl leading-7">{current.action}</p>
+        <div className="flex max-w-3xl flex-col gap-3 leading-7">
+          {current.action.split("\n\n").map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
 
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3">

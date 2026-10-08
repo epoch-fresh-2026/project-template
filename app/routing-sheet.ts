@@ -63,8 +63,12 @@ const STATIONS: readonly Station[] = [
   {
     id: "branch",
     name: "从主线开一条线",
-    action:
-      "main 是正式主线。先把它更新到最新，再从这次的 main 拉出一条分支，改动先写在分支上。这条分支只做刚才那条 Issue 里的事。个人项目的分支留在本仓库。",
+    action: [
+      "开分支和 fork 是两件事。",
+      "开分支：这个仓库你能直接改。先把 main 更新到最新，再从这次的 main 拉出一条临时线，这条线叫分支。改动写在分支上，只做刚才那条 Issue 里的事。别人看过之后，再并回同一个仓库的 main。一个人维护自己的仓库时，用下面的命令。",
+      "fork：你没有主仓库的写权限，主仓库不让你在里面开分支、推代码。常见于别人的开源项目，或公司仓库还没把权限给你。这时先 fork，把整个仓库复制一份到你自己的账号。这份复制品归你，你可以在上面改。改完向原来的主仓库提 PR，请那边的人把改动收进去。主仓库的 main 仍由那边的人决定收不收。",
+      "fork 只解决改动写在谁的仓库里。复制过来之后，你还是要在自己的那份上开分支。分支才是改动所在的那条线。",
+    ].join("\n\n"),
     command: ["git checkout main", "git pull", "git checkout -b feat/routing-sheet-gates"].join(
       "\n",
     ),
@@ -122,14 +126,18 @@ const STATIONS: readonly Station[] = [
 export const terms = [
   { word: "Issue", meaning: "一件先写下来的事。改代码之前先开这一条。" },
   { word: "main", meaning: "正式主线，收进来的代码都在这里。" },
-  { word: "分支", meaning: "从主线拉出来的临时线，改动先写在上面。" },
+  { word: "分支", meaning: "在同一个仓库里，从主线拉出来的临时线。改动先写在上面。" },
+  {
+    word: "fork",
+    meaning: "把整个仓库复制一份到你自己的账号。没有主仓库写权限、不能在里面开分支时才做。复制之后还要开分支。",
+  },
   { word: "PR", meaning: "把改动交上去请人看的申请。别人同意，才能并进主线。" },
   { word: "CI", meaning: "交上去之后自动跑的检查。" },
   { word: "Review", meaning: "别人看你的改动。点 approve 表示同意合并。" },
 ] as const;
 
 export const multiPersonNote =
-  "一个人维护自己的仓库时，不用 fork。几个人一起做、而你没有主仓库的写权限时，才把主仓库 fork 到自己账号，把主仓库加为 upstream，开分支前先 fetch 再 rebase upstream/main，然后向主仓库提 PR。";
+  "一个人维护自己的仓库时，在本仓库开分支。几个人一起做、而你没有主仓库的写权限时，才把主仓库 fork 到自己账号，把主仓库加为 upstream。开分支前先 fetch 再 rebase upstream/main，然后向主仓库提 PR。";
 
 export function listStations(): readonly Station[] {
   return STATIONS;

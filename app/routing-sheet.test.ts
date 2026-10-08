@@ -43,6 +43,11 @@ describe("listStations", () => {
     assert.match(branch.command, /git checkout main/);
     assert.match(branch.command, /git pull/);
     assert.match(branch.command, /git checkout -b /);
+    assert.match(branch.action, /开分支/);
+    assert.match(branch.action, /fork/);
+    assert.match(branch.action, /写权限/);
+    assert.match(branch.action, /复制一份到你自己的账号/);
+    assert.match(branch.action, /还是要在自己的那份上开分支/);
 
     const checks = listStations().find((station) => station.id === "checks");
     assert.ok(checks);
