@@ -1,0 +1,48 @@
+name: 功能
+description: 提出一个要做的功能
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        先写清背景、目标和验收标准。标题保持 `feat:` 开头，并指定负责人。没有里程碑的 Issue 不进入当前计划。
+
+        下面是一份写完的例子，按这个详略填写。
+
+        **标题：** `feat: 在流程单里标出还没完成的门禁`
+
+        **背景：** 第一次按这套流程改代码的人，知道要提 Issue，但不知道漏了哪一项会被仓库拦住。
+
+        **目标：** 打开流程单就能看到五个工位。某一项没做完时，页面写出具体缺什么。
+
+        **验收标准：**
+        - 五个工位按「提 Issue、开分支、本地检查、提 PR、合并」排列。
+        - 取消一项门禁后，该工位显示对应的缺失说明。
+        - 个人项目的默认步骤里没有 fork。
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+      description: 为什么现在需要这个功能。
+      placeholder: 第一次按这套流程改代码的人，知道要提 Issue，但不知道漏了哪一项会被仓库拦住。
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目标
+      description: 做完以后，谁能完成什么事。
+      placeholder: 打开流程单就能看到五个工位。某一项没做完时，页面写出具体缺什么。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      description: 做到哪几条，这个功能就算交付。
+      placeholder: |
+        - 五个工位按「提 Issue、开分支、本地检查、提 PR、合并」排列。
+        - 取消一项门禁后，该工位显示对应的缺失说明。
+    validations:
+      required: true

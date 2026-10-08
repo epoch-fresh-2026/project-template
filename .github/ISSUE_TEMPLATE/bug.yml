@@ -1,0 +1,49 @@
+name: 缺陷
+description: 报告一个需要修的问题
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        先写清背景、目标和验收标准，再动手改。标题保持 `bug:` 开头，并指定负责人。没有里程碑的 Issue 不进入当前计划。
+
+        下面是一份写完的例子，按这个详略填写。
+
+        **标题：** `bug: 复制命令没有写入剪贴板`
+
+        **背景：** 在流程单页面点击「复制命令」，剪贴板里没有内容。Chrome 打开 http://localhost:3000 ，选中「本地检查」后可以复现。
+
+        **目标：** 点击「复制命令」后，剪贴板里是这一工位的命令；复制失败时，页面说明要手动选中命令。
+
+        **验收标准：**
+        - 浏览器允许写剪贴板时，点一次按钮，剪贴板内容与页面上的命令一致。
+        - 浏览器拒绝写剪贴板时，按钮旁出现失败说明，命令文本仍可手动选择。
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+      description: 现在是什么情况，谁会碰到。
+      placeholder: |
+        在流程单页面点击「复制命令」，剪贴板里没有内容。
+        Chrome 打开 http://localhost:3000 ，选中「本地检查」后可以复现。
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目标
+      description: 修好以后应该是什么样。
+      placeholder: 点击「复制命令」后，剪贴板里是这一工位的命令；复制失败时，页面说明要手动选中命令。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      description: 做到哪几条，这个问题就算解决。
+      placeholder: |
+        - 浏览器允许写剪贴板时，点一次按钮，剪贴板内容与页面上的命令一致。
+        - 浏览器拒绝写剪贴板时，按钮旁出现失败说明，命令文本仍可手动选择。
+    validations:
+      required: true

@@ -2,7 +2,7 @@
 
 个人项目的 Issue 驱动开发模板。页面按一次改动的顺序讲清：提 Issue、从最新 `main` 开分支、本地检查、提 PR 并关联 Issue、Review 通过后合并。
 
-开发流程参考 [Windup 的贡献说明](https://github.com/1024XEngineer/Windup/blob/main/CONTRIBUTING.md)。这是个纯前端仓库，目录用 Next.js 默认的 App Router，没有照搬 Windup 的分层。个人项目直接在本仓库开分支，不用 fork。
+这是个纯前端仓库，目录用 Next.js 默认的 App Router。个人项目直接在本仓库开分支，不用 fork。
 
 ## 本地开发
 

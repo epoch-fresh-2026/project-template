@@ -1,0 +1,45 @@
+name: 任务
+description: 缺陷和功能之外的事项，例如改文档、改流程
+body:
+  - type: markdown
+    attributes:
+      value: |
+        同样写清背景、目标和验收标准，并指定负责人。这类标题不要加 `bug:` 或 `feat:`，会自动标成 Task。没有里程碑的 Issue 不进入当前计划。
+
+        下面是一份写完的例子，按这个详略填写。
+
+        **标题：** 整理贡献说明里的发版步骤
+
+        **背景：** 发版规则写在贡献说明末尾，和日常改动的步骤离得远，第一次发版的人不容易找到。
+
+        **目标：** 贡献说明里能单独看到发版要改哪个文件、PR 里写什么。
+
+        **验收标准：**
+        - 贡献说明有一节只讲发版。
+        - 新建 PR 时可以选「发版」模板，正文只要求改 `VERSION`。
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+      description: 现在是什么情况，为什么要做这件事。
+      placeholder: 发版规则写在贡献说明末尾，和日常改动的步骤离得远，第一次发版的人不容易找到。
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目标
+      description: 做完以后，谁能完成什么事。
+      placeholder: 贡献说明里能单独看到发版要改哪个文件、PR 里写什么。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收标准
+      description: 做到哪几条，这件事就算完成。
+      placeholder: |
+        - 贡献说明有一节只讲发版。
+        - 新建 PR 时可以选「发版」模板，正文只要求改 VERSION。
+    validations:
+      required: true

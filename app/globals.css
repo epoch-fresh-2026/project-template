@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bench: #d5dce3;
+  --ink: #1a2330;
+  --card: #f4f7f9;
+  --current: #e6a817;
+  --passed: #1f7a4d;
+  --blocked: #b42318;
+  --waiting: #6d7b88;
+  --line: #b7c3cd;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bench: var(--bench);
+  --color-ink: var(--ink);
+  --color-card: var(--card);
+  --color-current: var(--current);
+  --color-passed: var(--passed);
+  --color-blocked: var(--blocked);
+  --color-waiting: var(--waiting);
+  --color-line: var(--line);
+  --font-display: var(--font-display), "PingFang SC", "Noto Sans SC", sans-serif;
+  --font-body: var(--font-body), "PingFang SC", "Hiragino Sans GB", sans-serif;
+  --font-mono: var(--font-mono), "PingFang SC", ui-monospace, monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bench);
+  color: var(--ink);
+  font-family: var(--font-body), "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
