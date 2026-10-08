@@ -33,49 +33,12 @@ function classifyIssue(title, labelNames = []) {
   return { label: null, issueType: "Task" };
 }
 
-function selectMilestone(milestones, createdAt) {
-  const createdDate = createdAt.slice(0, 10);
-
-  return [...milestones]
-    .filter((milestone) => !milestone.due_on || milestone.due_on.slice(0, 10) >= createdDate)
-    .sort((left, right) => {
-      if (!left.due_on && !right.due_on) {
-        return Date.parse(right.created_at) - Date.parse(left.created_at);
-      }
-      if (!left.due_on) return 1;
-      if (!right.due_on) return -1;
-      return Date.parse(left.due_on) - Date.parse(right.due_on);
-    })[0];
-}
-
 async function triageIssue({ github, context, core }) {
   const issue = context.payload.issue;
   const { owner, repo } = context.repo;
   const labelNames = issue.labels.map((label) => (typeof label === "string" ? label : label.name));
   const classification = classifyIssue(issue.title, labelNames);
   const updates = [];
-
-  if (!issue.milestone) {
-    const milestones = await github.paginate(github.rest.issues.listMilestones, {
-      owner,
-      repo,
-      state: "open",
-      per_page: 100,
-    });
-    const milestone = selectMilestone(milestones, issue.created_at);
-
-    if (milestone) {
-      await github.rest.issues.update({
-        owner,
-        repo,
-        issue_number: issue.number,
-        milestone: milestone.number,
-      });
-      updates.push(`milestone=${milestone.title}`);
-    } else {
-      core.info("No current open milestone found; leaving milestone unchanged.");
-    }
-  }
 
   if (classification.label) {
     await github.rest.issues.addLabels({
@@ -130,4 +93,3 @@ async function triageIssue({ github, context, core }) {
 
 module.exports = triageIssue;
 module.exports.classifyIssue = classifyIssue;
-module.exports.selectMilestone = selectMilestone;

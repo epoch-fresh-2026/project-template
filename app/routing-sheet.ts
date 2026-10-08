@@ -50,7 +50,7 @@ const STATIONS: readonly Station[] = [
     id: "issue",
     name: "提 Issue",
     action:
-      "改代码之前先开 Issue。写清背景、目标和验收标准，并指定 owner。没有 milestone 的 Issue 不在计划内。标题用 bug: 或 feat: 开头，方便自动标成 Bug 或 Feature；其余标成 Task。",
+      "改代码之前先开 Issue。写清背景、目标和验收标准，并指定 owner。标题用 bug: 或 feat: 开头，方便自动标成 Bug 或 Feature；其余标成 Task。",
     command: ["feat: 为流程单补上门禁提示", "bug: 复制命令没有写入剪贴板"].join("\n"),
     skipped:
       "空泛标题进不了计划。关闭 Issue 时要写明原因：被哪个 PR 解决、被哪个 Issue 取代，或确认不再需要。",

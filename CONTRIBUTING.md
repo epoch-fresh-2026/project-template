@@ -35,10 +35,9 @@ git checkout -b <分支名>
 ## 提 Issue
 
 - 每个 Issue 写清背景、目标和验收标准。用仓库里的缺陷、功能或任务模板。模板里有一份可以直接对照的例子。
-- 标题用 `bug:` 或 `feat:` 开头。新 Issue 会自动挂上当前 milestone，并按标题标成 Bug 或 Feature；其余标成 Task。已经带了 `bug` 或 `enhancement` 标签时不再重复添加。
-- 每个 Issue 都要指定 owner。没有 milestone 的 Issue 不在计划内。
+- 标题用 `bug:` 或 `feat:` 开头。新 Issue 会按标题标成 Bug 或 Feature；其余标成 Task。已经带了 `bug` 或 `enhancement` 标签时不再重复添加。
+- 每个 Issue 都要指定 owner。
 - 关闭 Issue 时写明原因：已被 PR 解决（注明 PR 号）、被其他 Issue 取代（注明替代者），或确认不再需要。
-- 每个 Milestone 结束时归置遗留 Issue：已完成的关闭；划入下个 Milestone 的挂过去并指定 owner；其余不再排期。
 
 ## 本地检查
 

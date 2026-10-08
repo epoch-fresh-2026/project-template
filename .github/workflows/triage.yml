@@ -10,7 +10,7 @@ permissions: {}
 
 jobs:
   associate-issue-metadata:
-    name: Associate milestone, label, and type
+    name: Associate label and type
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
     permissions:
