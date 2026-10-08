@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 流程单
 
-## Getting Started
+个人项目的 Issue 驱动开发模板。页面按一次改动的顺序讲清：提 Issue、从最新 `main` 开分支、本地检查、提 PR 并关联 Issue、Review 通过后合并。
 
-First, run the development server:
+开发流程参考 [Windup 的贡献说明](https://github.com/1024XEngineer/Windup/blob/main/CONTRIBUTING.md)。这是个纯前端仓库，目录用 Next.js 默认的 App Router，没有照搬 Windup 的分层。个人项目直接在本仓库开分支，不用 fork。
+
+## 本地开发
+
+需要 Node.js 20.9 或更高版本。
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 http://localhost:3000 。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 检查
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+提 PR 之前按这个顺序跑，CI 用同一组命令：
 
-## Learn More
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 怎么改这个仓库
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+先看 [CONTRIBUTING.md](CONTRIBUTING.md)。改动从 Issue 出发，代码经 PR 合入 `main`。仓库里有 Issue 模板和 PR 模板，打开新建页面就能看到一份写好的例子。
+# project-template
