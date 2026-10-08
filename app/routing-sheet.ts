@@ -48,12 +48,12 @@ const TITLE_RULES: ReadonlyArray<{
 const STATIONS: readonly Station[] = [
   {
     id: "issue",
-    name: "提 Issue",
+    name: "先写下来",
     action:
-      "改代码之前先开 Issue。写清背景、目标和验收标准，并指定 owner。标题用 bug: 或 feat: 开头，方便自动标成 Bug 或 Feature；其余标成 Task。",
+      "改代码之前，先在 GitHub 上开一条记录，这条记录叫 Issue。写清背景（现在是什么情况）、目标（做成什么样）、验收标准（怎样算做完），并指定 owner，也就是负责人。标题用 bug: 开头表示要修问题，用 feat: 开头表示要做功能，系统会据此分类。其他标题会标成普通任务 Task。",
     command: ["feat: 为流程单补上门禁提示", "bug: 复制命令没有写入剪贴板"].join("\n"),
     skipped:
-      "空泛标题进不了计划。关闭 Issue 时要写明原因：被哪个 PR 解决、被哪个 Issue 取代，或确认不再需要。",
+      "只有一个空标题时，别人不知道要做什么。关掉这条 Issue 时要写明原因：被哪个 PR 解决、被另一条 Issue 取代，或者确定不做了。",
     gates: [
       { id: "background", label: "写了背景", missing: "还没写背景" },
       { id: "goal", label: "写了目标", missing: "还没写目标" },
@@ -62,64 +62,74 @@ const STATIONS: readonly Station[] = [
   },
   {
     id: "branch",
-    name: "从最新 main 开分支",
+    name: "从主线开一条线",
     action:
-      "先把本仓库的 main 更新到最新，再从这次的 main 开分支。分支和 PR 都留在这个仓库，改动范围与 Issue 一致。",
+      "main 是正式主线。先把它更新到最新，再从这次的 main 拉出一条分支，改动先写在分支上。这条分支只做刚才那条 Issue 里的事。个人项目的分支留在本仓库。",
     command: ["git checkout main", "git pull", "git checkout -b feat/routing-sheet-gates"].join(
       "\n",
     ),
-    skipped: "基于过期的 main 开分支，PR 会混进无关提交，或者和 main 冲突。",
+    skipped: "主线已经更新了，你还从旧的位置开分支，交上去时会混进别人的改动，或者和主线对不上。",
     gates: [
-      { id: "fresh-main", label: "更新到了最新 main", missing: "还没更新到最新 main" },
-      { id: "opened", label: "从这次的 main 开了分支", missing: "还没从这次的 main 开出分支" },
+      { id: "fresh-main", label: "已经更新到最新主线", missing: "还没更新到最新 main" },
+      { id: "opened", label: "已经从这次的主线开了分支", missing: "还没从这次的 main 开出分支" },
     ],
   },
   {
     id: "checks",
-    name: "本地检查",
-    action: "提 PR 之前按这个顺序在本地跑完。CI 用同一组命令，顺序也不变。",
+    name: "自己先检查",
+    action:
+      "把改动交上去之前，先在自己电脑上按这个顺序跑完。交上去之后，CI 会自动再跑同一组命令。lint 看代码问题，typecheck 看类型，test 跑测试，build 看能不能打包。",
     command: ["npm run lint", "npm run typecheck", "npm run test", "npm run build"].join("\n"),
-    skipped: "本地没跑的检查会在 CI 里拦住合并。合进 main 之后才发现，修的是已经在 main 上的提交。",
+    skipped: "自己没跑的检查，CI 会拦住，暂时不能并进主线。如果已经并进主线才发现，要修的就是主线上的代码。",
     gates: [
-      { id: "lint", label: "跑过 lint", missing: "还没跑 lint" },
-      { id: "typecheck", label: "跑过 typecheck", missing: "还没跑 typecheck" },
-      { id: "test", label: "跑过 test", missing: "还没跑 test" },
-      { id: "build", label: "跑过 build", missing: "还没跑 build" },
+      { id: "lint", label: "跑过代码检查 lint", missing: "还没跑 lint" },
+      { id: "typecheck", label: "跑过类型检查 typecheck", missing: "还没跑 typecheck" },
+      { id: "test", label: "跑过测试 test", missing: "还没跑 test" },
+      { id: "build", label: "跑过打包 build", missing: "还没跑 build" },
     ],
   },
   {
     id: "pr",
-    name: "提 PR 并关联 Issue",
+    name: "交上去请人看",
     action:
-      "PR 描述里用关闭关键字关联 Issue，改动范围与 Issue 一致，不夹带无关改动。main 必须走 PR，不能直接推进。",
+      "在 GitHub 上开一个 PR，也就是请别人看你这次改动的申请。说明里写上 Closes #123，123 换成 Issue 编号，合并后那条 Issue 会自动关掉。这次改的内容要和那条 Issue 是同一件事。不能把分支直接推进 main。",
     command: "Closes #123",
     skipped:
-      "没关联 Issue 时，自动化会在 PR 上留言提醒。补上关联后，这条提醒会标成已解决。没 review、没合并的代码不算正式版本。",
+      "没写上对应的 Issue 时，机器人会在 PR 下面留言。补上以后，提醒会标成已解决。还没人看过、还没合并的代码，不能当成已经发布的版本。",
     gates: [
       {
         id: "closes",
-        label: "描述里写了 Closes #",
+        label: "说明里写了 Closes #编号",
         missing: "描述里还没有 Closes # 这样的关闭关键字",
       },
-      { id: "scope", label: "改动范围与 Issue 一致", missing: "改动范围和 Issue 不一致" },
+      { id: "scope", label: "改动和那条 Issue 是同一件事", missing: "改动范围和 Issue 不一致" },
     ],
   },
   {
     id: "merge",
-    name: "Review 通过后合并",
+    name: "看过再合并",
     action:
-      "要有 approve，并且 CI 通过，才能合进 main。发版时单独提一个 PR 修改 VERSION。正式发布只认 Release，普通的 main 更新不会变成一次发布。",
+      "Review 是别人看你的改动。对方点 approve 表示同意。CI 的自动检查也要通过，才能合并进 main。要发布时，另外开一个 PR，只改 VERSION 里的版本号。打上标签并写出 Release（这一版的发布说明）之后，才算一次正式发布。main 上平时多出来的提交，还不算发布。",
     command: ["# 单独一个 PR，只改版本号", "VERSION=1.1.0"].join("\n"),
-    skipped: "没有 approve 或 CI 没过，不能合进 main。部署只认 Release，不认还没合并的分支。",
+    skipped: "没有人点同意，或者自动检查没过，就不能并进主线。还没合并的分支也不能拿去当正式版本。",
     gates: [
-      { id: "approve", label: "有 approve", missing: "还没有 approve" },
-      { id: "ci", label: "CI 通过", missing: "CI 还没通过" },
+      { id: "approve", label: "有人点了同意 approve", missing: "还没有 approve" },
+      { id: "ci", label: "自动检查 CI 通过了", missing: "CI 还没通过" },
     ],
   },
 ];
 
+export const terms = [
+  { word: "Issue", meaning: "一件先写下来的事。改代码之前先开这一条。" },
+  { word: "main", meaning: "正式主线，收进来的代码都在这里。" },
+  { word: "分支", meaning: "从主线拉出来的临时线，改动先写在上面。" },
+  { word: "PR", meaning: "把改动交上去请人看的申请。别人同意，才能并进主线。" },
+  { word: "CI", meaning: "交上去之后自动跑的检查。" },
+  { word: "Review", meaning: "别人看你的改动。点 approve 表示同意合并。" },
+] as const;
+
 export const multiPersonNote =
-  "多人协作、贡献者没有主仓库写权限时，才 fork 到个人账号，把主仓库加为 upstream，开分支前 fetch 并 rebase upstream/main，再向主仓库提 PR。个人项目不用这一步。";
+  "一个人维护自己的仓库时，不用 fork。几个人一起做、而你没有主仓库的写权限时，才把主仓库 fork 到自己账号，把主仓库加为 upstream，开分支前先 fetch 再 rebase upstream/main，然后向主仓库提 PR。";
 
 export function listStations(): readonly Station[] {
   return STATIONS;

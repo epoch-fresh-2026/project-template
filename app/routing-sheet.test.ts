@@ -16,11 +16,11 @@ describe("listStations", () => {
     assert.deepEqual(
       stations.map((station) => station.name),
       [
-        "提 Issue",
-        "从最新 main 开分支",
-        "本地检查",
-        "提 PR 并关联 Issue",
-        "Review 通过后合并",
+        "先写下来",
+        "从主线开一条线",
+        "自己先检查",
+        "交上去请人看",
+        "看过再合并",
       ],
     );
     assert.deepEqual(
